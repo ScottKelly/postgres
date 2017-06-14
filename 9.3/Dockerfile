@@ -50,7 +50,7 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 # speed optimizatoins and make the sample config easier to munge (and "correct by default")
-RUN printf "fsync=off\nfull_page_writes=off\nsynchronous_commit=off\ncheckpoint_segments=32\nshared_buffers=128MB\nwork_mem=32MB\n" >> /usr/share/postgresql/$PG_MAJOR/postgresql.conf.sample \
+RUN printf "fsync=off\nfull_page_writes=off\nsynchronous_commit=off\ncheckpoint_segments=100\ncheckpoint_timeout=45min\nshared_buffers=128MB\nwork_mem=32MB\n" >> /usr/share/postgresql/$PG_MAJOR/postgresql.conf.sample \
     &&  mv -v /usr/share/postgresql/$PG_MAJOR/postgresql.conf.sample /usr/share/postgresql/ \
 	&& ln -sv ../postgresql.conf.sample /usr/share/postgresql/$PG_MAJOR/ \
 	&& sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /usr/share/postgresql/postgresql.conf.sample
